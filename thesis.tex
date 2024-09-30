@@ -73,6 +73,7 @@
 \listoffigures
 
 \midmatter
+\newcommand{\tool}{\textsc{Hera}}
 \input{data/abstract}
 \input{data/denotation}
 %
@@ -95,10 +96,13 @@
 \newcommand{\@romannoblank}[1]{%
 	\@roman{\numexpr#1-\value{blankpages}\relax}%
 }
+\newcommand{\ignore}[1]{}
+
 \makeatother
 
 \input{data/chap01}
 \input{data/chap02}
+\input{data/chap03}
 
 \input{data/ack}
 

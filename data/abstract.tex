@@ -9,7 +9,7 @@
 基于以上问题和总结，本文深入分析CC问题，并进行了如下探索性工作：
 \begin{itemize}
 	\item 本文从Ubuntu系统软件仓库，Python软件仓库和Python解释器出发，研究不同仓库间Python软件包的兼容性问题。首先，本文系统性的探讨了Ubuntu包管理工具apt和Python包管理工具pip的依赖解析规则，然后深入分析了系统级Python解释器的包调用规则。基于上述分析，本研究总结了CC问题的触发模式和表现形式，并在Ubuntu生态软件仓库和Python软件仓库间，建立了一个包含1692个CC问题的数据集。
-	\item 在上述分析的基础上，本研究设计了一款自动解决 CC 问题的工具 Hera。Hera 首先离线建立一个跨生态兼容性数据库、然后在线预测、检测和修复用户系统环境中的 CC 问题。实验结果显示，Hera在上述CC问题数据集上的检测准确率为 90.5\%，召回率为 93.7\%。我们还从GitHub和Stack Overflow收集并复现了26 个CC问题，Hera成功检测出了所有这些问题并提供了正确的修复建议。
+	\item 在上述分析的基础上，本研究设计了一款自动解决 CC 问题的工具\tool{}。\tool{}首先离线建立一个跨生态兼容性数据库、然后在线预测、检测和修复用户系统环境中的 CC 问题。实验结果显示，\tool{}在上述CC问题数据集上的检测准确率为 90.5\%，召回率为 93.7\%。我们还从GitHub和Stack Overflow收集并复现了26 个CC问题，Hera成功检测出了所有这些问题并提供了正确的修复建议。
 \end{itemize}
 \end{cabstract}
 \ckeywords{Ubuntu生态; Python生态; 兼容性问题}
@@ -31,10 +31,10 @@ Based on the above questions and summary, this paper conducts an in-depth analys
 	\item This paper investigates compatibility issues between Python packages across different repositories, starting from the Ubuntu system software repository, Python software repository, and Python interpreter.
 	First, this paper systematically explores the dependency resolution rules of Ubuntu's package manager apt and Python's package manager pip, and then delves into the package invocation rules of the system-level Python interpreter.
 	Based on the above analysis, this study summarizes the triggering patterns and manifestations of CC issues and establishes a dataset containing 1,692 CC issues between the Ubuntu ecosystem software repository and the Python software repository.
-	\item Based on the above analysis, this study designed an automated tool named Hera to resolve CC issues.
-	Hera first establishes an offline cross-ecosystem compatibility database, and then predicts, detects, and resolves CC issues in the user's system environment online.
-	Experimental results show that Hera achieves a detection accuracy of 90.5\% and a recall rate of 93.7\% on the aforementioned CC issue dataset.
-	We also collected and reproduced 26 CC issues from GitHub and Stack Overflow, and Hera successfully detected all these issues and provided correct repair suggestions.
+	\item Based on the above analysis, this study designed an automated tool named \tool{} to resolve CC issues.
+	\tool{} first establishes an offline cross-ecosystem compatibility database, and then predicts, detects, and resolves CC issues in the user's system environment online.
+	Experimental results show that \tool{} achieves a detection accuracy of 90.5\% and a recall rate of 93.7\% on the aforementioned CC issue dataset.
+	We also collected and reproduced 26 CC issues from GitHub and Stack Overflow, and \tool{} successfully detected all these issues and provided correct repair suggestions.
 \end{itemize}
 
 

@@ -1,0 +1,97 @@
+% \begin{table}[t]
+	% \centering
+	% \caption{Effectiveness of \textit{Demian} in detecting real-world PA Issue.}
+	% \label{tab:7}
+	% \begin{tabularx}{\linewidth}{|c|l|l|l|c|}
+		% \hline
+		% \textbf{Issue ID} & \textbf{apt pkg} & \textbf{pip pkg} & \textbf{Incom. API} & \textbf{Detected} \\
+		% \hline
+		% *75244186 & scipy & numpy & numpy.int & \checkmark \\
+		% \hline
+		% *61237965 & pandas & numpy & \makecell[l]{testing. \\ decorators} & \checkmark \\
+		% \hline
+		% *76383191 & flask & jinja2 & escape & \checkmark \\
+		% \hline
+		% \#5154    & jinja2 & markupsafe & soft\_unicode & \checkmark \\
+		% \hline
+		% \multicolumn{4}{|c|}{Total Issues Detected} & 26/23 \\
+		% \hline
+		% \end{tabularx}
+	% \end{table}
+\begin{table}[htbp]
+	\footnotesize
+	%\scriptsize
+	\centering
+	\setlength\tabcolsep{2pt}     % horizental space
+	\def\arraystretch{1.2}
+	% \vspace{-2mm}
+	\caption{RQ3的实验结果}
+	\bgroup
+	\definecolor{Status1}{HTML}{ff3300}
+	\definecolor{Status2}{HTML}{1E90FF}
+	\definecolor{Status3}{HTML}{336633}
+	\definecolor{Status4}{HTML}{33ff99}
+	\definecolor{Status5}{HTML}{993399}
+	\definecolor{Status6}{HTML}{FF7F00}
+	\definecolor{Status7}{HTML}{8E7111}
+	\definecolor{Status8}{HTML}{878787}
+	\definecolor{Status9}{HTML}{E535E5}
+	\definecolor{Status10}{HTML}{35E54D}
+	\begin{tabular}{|l|}
+		% \toprule
+		\hline
+		\rowcolor[HTML]{9AFF99} 
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{9AFF99}\textbf{27 真实世界 CC 问题}} \\ \hline
+		questions\#75244186{\color{Status1}$\spadesuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		questions\#61237965{\color{Status1}$\spadesuit$}{\color{Status7}$\blacksquare$};
+		questions\#76383191{\color{Status1}$\spadesuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		\\
+		\rowcolor[HTML]{EFEFEF}
+		questions\#72593814{\color{Status1}$\spadesuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		questions\#74843336{\color{Status1}$\spadesuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		questions\#74411148{\color{Status1}$\spadesuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		\\
+		questions\#74515643{\color{Status1}$\spadesuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		linode\_panel\#1{\color{Status2}$\clubsuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		ethz\_piksi\_ros\#234{\color{Status2}$\clubsuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		\\
+		\rowcolor[HTML]{EFEFEF}
+		gradio\#5154{\color{Status1}$\spadesuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		frr\#14816{\color{Status2}$\clubsuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		In0ri\#10{\color{Status2}$\clubsuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		gramine\#1142{\color{Status2}$\clubsuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		\\
+		gsc\#121{\color{Status1}$\spadesuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		PyDodge\#24{\color{Status2}$\clubsuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		kasm-dof-workspace\#9{\color{Status2}$\clubsuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		linkml\#966{\color{Status2}$\clubsuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		\\
+		\rowcolor[HTML]{EFEFEF}
+		quart\#171{\color{Status1}$\spadesuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		LittlePaimon\#283{\color{Status2}$\clubsuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		fprime-tools\#48{\color{Status2}$\clubsuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		taipy\#255{\color{Status2}$\clubsuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		\\
+		stable-diffusion-webui\#231{\color{Status1}$\spadesuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		mkchromecast\#451{\color{Status2}$\clubsuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		InstallScript\#396{\color{Status2}$\clubsuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		\\
+		\rowcolor[HTML]{EFEFEF}
+		cserbot\#9688{\color{Status2}$\clubsuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		fact\_CORE\#858{\color{Status2}$\clubsuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		frr\#14820{\color{Status4}$\diamondsuit$}{\color{Status9}$\blacksquare$}{\color{Status10}$\blacksquare$}{\color{Status5}$\blacksquare$};
+		\\
+		\hline
+		% \\ \bottomrule
+		\multicolumn{1}{l}{{\color{Status1}$\spadesuit$}: 来自Stack overflow的CC问题; }\\
+		\multicolumn{1}{l}{{\color{Status2}$\clubsuit$}: 来自Github的CC问题;} \\
+		\multicolumn{1}{l}{{\color{Status4}$\diamondsuit$}: 来自Github讨论区的CC问题;}\\
+		\multicolumn{1}{l}{{\color{Status9}$\blacksquare$}: 成功复现的CC问题;}\\
+		\multicolumn{1}{l}{{\color{Status7}$\blacksquare$}:未能成功复现的CC问题;}\\
+		\multicolumn{1}{l}{{\color{Status10}$\blacksquare$}:  \tool{}检测成功的CC问题;}\\
+		\multicolumn{1}{l}{{\color{Status5}$\blacksquare$}:\tool{}修复成功的CC问题.}\\
+	\end{tabular}
+	\egroup
+	% \vspace{-2mm}
+	\label{tab:issues}
+\end{table}

@@ -36,6 +36,13 @@
 \documentclass[master,ttf]{nudtpaper}
 \usepackage{mynudt}
 \usepackage{multirow,array,makecell}
+\usepackage{threeparttable}
+\usepackage{fontawesome5}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{colortbl}
+
+
 
 \classification{TP391}
 \serialno{231202114}
@@ -73,7 +80,7 @@
 \listoffigures
 
 \midmatter
-\newcommand{\tool}{\textsc{Hera}}
+
 \input{data/abstract}
 \input{data/denotation}
 %
@@ -96,14 +103,19 @@
 \newcommand{\@romannoblank}[1]{%
 	\@roman{\numexpr#1-\value{blankpages}\relax}%
 }
-\newcommand{\ignore}[1]{}
+
 
 \makeatother
 
 \input{data/chap01}
+\newpage
+\mbox{}
+\newpage
 \input{data/chap02}
 \input{data/chap03}
-
+\input{data/chap04}
+\input{data/chap05}
+\input{data/chap06}
 \input{data/ack}
 
 \cleardoublepage
@@ -113,10 +125,10 @@
 \bibliography{ref/refs}
 
 \input{data/resume}    %在学期间成果
-\input{data/reviewinfo} %公开评阅信息
+%\input{data/reviewinfo} %公开评阅信息
 % 最后，需要的话还要生成附录，全文随之结束。
-\appendix
-\backmatter
-\input{data/appendix01}
+%\appendix
+%\backmatter
+%\input{data/appendix01}
 
 \end{document}

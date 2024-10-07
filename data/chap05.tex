@@ -1,0 +1,135 @@
+\chapter{实验与评估}
+为了评估\tool{}的有效性，本文进行了一系列广泛的实验来解决三个关
+键的研究问题。本节将详细描述本文的实验细节，包括所使用的数据集、评估指
+标、实施细节和实验结果。
+
+\section{研究问题设置}
+本文在评估部分研究了以下三个研究问题：
+\begin{itemize}
+	\item \textbf{RQ4（检测 CC 问题）：\tool{}在检测 CC 问题方面的效果如何？}为了回答 RQ4，我们利用小节\ref{3.4} 构建的CC 问题数据集，以评估\tool{} 检测CC问题的有效性，并通过基于抽样的人工验证过程确认其可靠性。
+	\item \textbf{RQ5（分析不兼容改变）：\tool{} 在分析不兼容改变方面的效果如何？}为了回答 RQ5，我们从数据集中每个 CC 问题的错误信息中提取了破坏性API，从而评估分析不兼容改变的召回率，并通过样本验证进一步评估其精确率。
+	\item \textbf{RQ6（解决实际问题）：\tool{} 能否检测到真实场景中的 CC 问题并提供有效的修复建议？}为了回答 RQ6，我们从 Stack Overflow 和 GitHub 收集了 27 个实际场景中的 CC 问题，以评估 \tool{} 是否能够检测并修复这些真实的 CC 问题。
+\end{itemize}
+
+\section{RQ4:检测 CC 问题}
+\subsection{实验设置}
+\textbf{研究方法。}在本研究中，我们使用 \tool{} 检测了数据集中所有 23,866 个软件包组合的 CC 问题。每个组合\textit{（A, B）}包含应用软件包 \textit{A}来自 apt 仓库的预定义版本）和库软件包 \textit{B}通过 pip 安装的默认版本）。需要注意的是， \tool{} 并不会深入分析 API 调用链，这意味着如果 \textit{B}是 \textit{A}的传递依赖项但没有直接调用关系，这可能会导致漏报。然而，如果 \textit{A} 的某个依赖项 \textit{C} 调用了 \textit{B} 中的破坏性 API，则 \textit{A} 和 \textit{B} 的安装也可能会在系统中引入 CC 问题。因此，如果在 \textit{C} 和 \textit{B} 之间识别出 CC 问题，我们也会认为 \textit{A} 和 \textit{B} 之间存在 CC 问题。我们使用抽样人工验证来检查检测出问题的准确性。对于检测到的问题，我们手动验证了其正确性。样本量通过有限总体校正法计算，确保我们的样本能够准确代表整个数据集。我们将置信水平设定为 95\%，将误差范围设定为 5\%，这属于标准的统计阈值。
+
+\textbf{评估指标。}基于我们构建的 CC 问题数据集，我们在评估中考虑了七个指标：(1) 已验证的真实正例 (VTP)：由 \tool{} 报告且通过人工验证的 CC 问题；(2) 直接真实正例 (DTP)：由 \tool{} 报告且在数据集中存在的 CC 问题；(3) 误报 (FP)：由 \tool{} 报告但未通过人工验证的 CC 问题；(4) 漏报 (FN)：数据集中存在但 \tool{} 未检测到的 CC 问题。基于上述四个指标，我们可以计算出精确率（Precision）、召回率（Recall）和 F1 分数（F1 Score），对应的计算公式如公式\ref{equ:1}、\ref{equ:2}和\ref{equ:3}所示。
+\begin{equation}
+	\label{equ:1}
+	Precision = VTP / (VTP + FP)
+\end{equation}
+\begin{equation}
+	\label{equ:2}
+	Recall = DTP / (DTP + FN)
+\end{equation}
+\begin{equation}
+	\label{equ:3}
+	F1 Score =2 * Precision * Recall / ( Precision + Recall)
+\end{equation}
+其中精确率评估\tool{} 是否能够精准地检测 CC 问题。召回率评估\tool{} 检测所有 CC 问题的能力。F1 分数结合了精准率和召回率。
+
+\subsection{结果分析}
+采用上述研究方法，\tool{}共报告了 3,689 个 CC 问题。需要注意的是，\tool{} 报告的许多问题在 CC 问题数据集构建过程中并未被识别，因为我们的初始兼容性测试仅涉及库软件包的导入，这可能无法触发所有破坏性 API。从这些报告的问题中，我们抽取了 348 个案例进行人工验证。表\ref{tab:RQ4}显示了 RQ4 的实验结果。
+\input{table/RQ4}
+\tool{} 检测 CC 问题的精准率为 90.5\%，召回率为 93.7\%，F1 分数为 92.1\%。根据结果，我们可以得出结论，\tool{} 能够有效地检测 CC 问题。
+
+\textbf{误报分析。}我们总结了导致误报的三大主要原因：
+\begin{itemize}
+	\item \textbf{(a) 未使用可选参数或额外参数列表（17/33）：}在第三方软件包的演进过程中，移除函数中的可选参数或额外参数列表通常被视为一种后向不兼容更改。然而，当函数调用仅使用必选参数时，这种不兼容更改不会对其产生影响。在检测 CC 问题时，\tool{}查询依赖表时仅检查破坏性 API 的使用情况，而未考虑参数的使用情况，导致了误报的产生。
+	\item \textbf{ (b) 用于赋值的破坏性函数 API（10/33）：}当破坏性函数 API 用于赋值而未被调用时，不会触发 CC 问题。目前，依赖表仅存储 API 使用情况，而未考虑使用类型，这导致了误报的产生。例如，在应用软件包 “partd 1.11.1” [14] 中，代码 \textit{decompress\_bytes = blosc.decompress} 将破坏性 API \textit{blosc.decompress} 赋值给 \textit{decompress\_bytes}，而未调用它，因此不会引发 CC 问题。
+	\item \textbf{ (c) 错误的破坏性 API（6/33）：}在某些库软件包的某些版本中，API 提取未能捕获所有提供的 API 或提取的 API 名称与实际 API 调用名称不匹配。这导致兼容性表中存储了错误的破坏性 API，从而引发了这些误报。例如，在库软件包 “humanfriendly 10.0” [7] 中，API 提取时将 API 名称识别为 \textit{humanfriendly.model.coerce\_boolean}，而实际的 API 调用名称是 \textit{humanfriendly.coerce\_boolean}。
+\end{itemize}
+
+\textbf{漏报分析。}\tool{} 共产生了 107 个漏报，其中 59 个是由于依赖表未存储相应破坏性 API 的使用情况。在提取 API 使用情况时，\tool{} 主要检测了具有频繁 API 调用的 AST 节点，如 \textit{atom\_expr} 节点和 \textit{argument} 节点。其他节点中破坏性 API 的使用情况导致了这些漏报的产生。此外，一些破坏性 API 的使用情况并未出现在 *.py 文件中，例如，“pipdeptree 0.13.2-1build1” [17] 和 “pip 23.1.2” [15] 之间的破坏性 API 使用发生在 \textit{*.pyx} 文件中，而 \tool{} 无法分析 \textit{*.pyx} 或 \textit{*.pyc} 文件。其余 48 个漏报是由于兼容性表未存储这些案例中对应的破坏性 API。这主要是由于 API 提取失败或在分析不兼容更改时判定规则未涵盖所有不兼容更改场景。
+
+\begin{tcolorbox}[boxrule=1pt,boxsep=1pt,left=2pt,right=2pt,top=2pt,bottom=2pt]
+	\small
+	\textcolor{red}{\faIcon{user-edit}} \noindent\textbf{RQ4结论:} 
+	\tool{} 能够有效检测 CC 问题，精确率达到 90.5\%，召回率达到 93.7\%。
+\end{tcolorbox} 
+
+\section{RQ5:分析不兼容改变}
+\subsection{实验设置}
+\textbf{研究方法。}RQ5 旨在评估 \tool{} 的核心组件——兼容性表，重点关注分析不兼容更改的有效性。为了评估精确率，我们根据兼容性表中每种不兼容更改模式的比例，对破坏性 API 进行分层随机抽样，并使用与 RQ4 相同的样本量计算方法。对于每个抽样的破坏性 API，我们安装了库软件包的相应 apt 版本和 pip 版本，并手动验证调用该破坏性 API 是否会导致兼容性问题。为了评估召回率，我们验证了 CC 问题数据集中的破坏性 API 是否存在于兼容性表中。
+
+\textbf{评估指标。}我们采用了六个评估指标：(1) 已验证的真实正例 (VTP)：从兼容性表中抽样并通过人工验证的破坏性 API；(2) 直接真实正例 (DTP)：在 CC 问题数据集中且存在于兼容性表中的破坏性 API；(3) 误报 (FP)：从兼容性表中抽样但未通过人工验证的破坏性 API；(4) 漏报 (FN)：存在于 CC 问题数据集中但不在兼容性表中的破坏性 API。基于这些指标，我们使用与 RQ4 相同的方法计算精确率和召回率。精确率评估 \tool{} 是否能够准确分析不兼容更改，而召回率评估 \tool{} 是否能够分析所有不兼容更改。
+\subsection{结果分析}
+图\ref{fig:RQ5}展示了 RQ5 的实验结果。
+\begin{figure}[htbp]
+	\centering
+	\subfloat[分析不兼容更改的精确率]{
+		\includegraphics[width=\textwidth]{RQ2-1}
+		\label{fig:RQ5-1}
+	}\hspace{4em}
+	\subfloat[分析不兼容更改的召回率]{
+		\includegraphics[width=.85\textwidth]{RQ2-2}
+		\label{fig:RQ5-2}
+	}
+	\caption{RQ5的实验结果}
+	\label{fig:RQ5}
+	% \vspace{-2mm}
+\end{figure}
+在抽样的 384 个破坏性 API 中，350 个通过了人工验证，34 个未通过，精准率为 91.1\%。漏报来自四类更改，包括 API 添加、API 删除、参数添加和可选参数添加。在 CC 问题数据集中共计 1,674 个破坏性 API，其中 1,644 个存在于兼容性表中，召回率为 98.2\%。根据实验结果，我们可以得出结论：\tool{} 能够有效地分析不兼容更改。
+
+\textbf{误报分析。}我们根据不兼容更改模式分别分析了误报：
+\begin{itemize}
+	\item \textbf{(a) API 添加和移删除（30/34）：}这两类中的误报主要是由于 API 提取过程未能提取所有 API。\tool{} 采用动态反射来提取 API，但当 Python 解释器由于缺少依赖项而无法导入模块时，这种方法会失效。某些版本的库软件包未声明其所有依赖项，导致无法自动安装必要的依赖项。因此，依赖这些未安装依赖项的模块无法被导入，导致 API 丢失。
+	\item \textbf{ (b) 参数添加（3/34）：}该类别中的 3 个误报是由于添加的参数属于额外参数列表的一部分（例如，“xarray 0.15.0” 和 “xarray 2022.10.0” [23] 中的 \textit{xarray.open\_rasterio}）。在我们的规则中，我们认为参数添加会导致前向不兼容更改和后向不兼容更改，但当参数被添加到参数列表时，它仅会导致后向不兼容更改。我们将这种对不兼容更改类型的误判视为误报。
+	\item \textbf{ (c) 可选参数添加（1/34）：}可选参数添加类别中的 1 个误报也是由于不兼容更改类型的误判导致的。这一问题出现在库软件包 “marshmallow” [9] 中\textit{ marshmallow.fields.Field} 类的构造函数中。新版本修改了该类，使其要求使用关键字参数，并将可选参数添加到了参数列表中。\tool{}将其报告为可选参数添加和后向不兼容更改。然而，这种更改应被视为 后向不兼容更改 和 前向不兼容更改，这导致了漏报。
+\end{itemize}
+
+\textbf{漏报分析。}所有漏报均是由于在构建兼容性表时的 API 提取步骤中遗漏了一些 API 引起的。这些遗漏主要与缺少必要的依赖项有关，导致无法导入相关模块，从而无法动态提取 API。此外，由于某些库软件包设计的复杂性和工具设计的局限性，Hera 无法提取相关的 API。
+
+\begin{tcolorbox}[boxrule=1pt,boxsep=1pt,left=2pt,right=2pt,top=2pt,bottom=2pt]
+	\small
+	\textcolor{red}{\faIcon{user-edit}} \noindent\textbf{RQ5结论:} 
+	在 95\% 的置信水平和 5\% 的误差范围下，\tool{} 在分析不兼容更改方面表现出较高的有效性，精准率达 91.1\%，召回率达 98.2\%。
+\end{tcolorbox} 
+
+\section{RQ6:解决实际问题}
+\subsection{实验设置}
+\textbf{研究方法。}RQ6 通过从知名问答网站或开源平台（如 StackOverflow [21] 和 GitHub [6]）收集并复现真实场景中的 CC 问题来评估 \tool{} 的实用性。收集过程分为两个步骤：
+\begin{itemize}
+	\item \textbf{步骤 1：搜索关键词。}我们首先使用了“Ubuntu”、“ImportError”和“dist-packages”等关键词，初步筛选出与 Ubuntu 系统中第三方软件包相关的兼容性问题。
+	\item \textbf{步骤 2：验证错误信息。}CC 问题与传统不兼容性问题最直接的区别在于，CC 问题发生在 apt 和 pip 目录之间。因此，我们聘请了一位拥有五年以上 Python 编程经验的工程师手动审查每个问题的错误信息，以确定其是否为 CC 问题。
+\end{itemize}
+基于上述两个步骤，我们识别出了 27 个实际场景中的 CC 问题，并尝试在系统中复现它们。对于成功复现的问题，我们使用 \tool{} 检测 CC 问题，并根据 \tool{} 提供的建议修复这些 CC 问题。
+\subsection{结果分析}
+基于上述方法，我们成功复现了 26 个 CC 问题，并且 \tool{} 能够检测到所有这些问题。所有问题均列于表\ref{tab:issues} 中。
+\input{table/issues}
+此外，我们遵循\tool{} 的建议，在导入应用软件包之前先从 apt 目录中导入库软件包，并成功修复了所有 CC 问题。
+无法复现的问题是问题\#61237965[20]，原因是开发者提供的环境信息不足。
+
+\textbf{案例分析。}许多 CC 问题困扰着社区内的开发者，其中 gradio 的 Issue \#5154 [29] 就是一个例子。该开发者在运行 gradio 程序时遇到了应用软件包 “jinja2” 与库软件包 “markupsafe” 之间的兼容性问题。
+\begin{figure}[htbp]
+	\centering
+	\subfloat[gradio 的 Issue \#5154的错误信息]{
+		\includegraphics[width=\textwidth]{RQ3}
+		\label{fig:RQ6-1}
+	}\hspace{4em}
+	\subfloat[gradio 的 Issue \#5154的API导入链]{
+		\includegraphics[width=.85\textwidth]{RQ3 import chain}
+		\label{fig:RQ6-2}
+	}
+	\caption{一个真实世界CC问题案例}
+	\label{fig:RQ6}
+	% \vspace{-2mm}
+\end{figure}
+图 \ref{fig:RQ6-1}  显示了该问题回溯信息的关键部分，说明了来自 apt 目录的 “jinja2” 在尝试从 pip 目录中的 “markupsafe” 导入 \textit{soft\_unicode} 函数时遇到了错误。此外，图 \ref{fig:RQ6-2} 详细展示了 API 导入链，说明了 apt 目录中的 “jinja2 2.10.1-2ubuntu0.2” 试图从 apt 目录中的 “markupsafe 1.1.0-1build2” 导入 \textit{soft\_unicode} 函数，但 Python 解释器实际从 pip 目录中的 “markupsafe 2.1.3” 导入了该函数。但 2.1.3 版本删除了该属性，从而导致了该问题的发生。最终，开发者通过将 pip 目录中的库软件包 “markupsafe” 降级至支持 \textit{soft\_unicode} 的版本来解决了该问题。\tool{} 建议指定从 apt 目录中导入库软件包 “markupsafe”，这可以帮助用户避免在 pip 目录中重新安装兼容版本的 “markupsafe”，从而更轻松地解决该问题。此外，包管理器并未向用户提供该问题的任何警告，而 \tool{} 能够在软件包安装时预测到该问题。
+
+\begin{tcolorbox}[boxrule=1pt,boxsep=1pt,left=2pt,right=2pt,top=2pt,bottom=2pt]
+	\small
+	\textcolor{red}{\faIcon{user-edit}} \noindent\textbf{RQ6结论:} 
+	在成功复现的 26 个实际 CC 问题中，\tool{} 能够检测到所有 26 个案例，并提供准确的原因分析和有效的修复建议。
+\end{tcolorbox} 
+
+\section{讨论}
+在本节中，我们讨论了本研究的局限性和可推广性。
+\subsection{局限性}
+首先，\tool{} 检测 CC 问题，并建议用户在导入应用软件包之前先从 apt 仓库中导入兼容的库软件包。然而，依赖于应用软件包的用户程序不一定会受到 CC 问题的影响。这是因为用户程序可能并未调用破坏性 API。要判断用户程序是否会因 CC 问题而遇到错误，需要进行在线程序分析以获取 API 调用链。目前，为了降低部署开销，我们的工作未进行在线程序分析。其次，一些跨仓库兼容性问题与本地模块和二进制库有关，而 \tool{} 当前无法解决这些问题。这是因为 \tool{} 当前的程序分析集中在 Python 语言，无法分析此类模块的 API 兼容性。我们的工作重点是解决 Python 源代码级别的跨仓库第三方软件包兼容性问题，这已覆盖了用户遇到的大部分不兼容性问题。我们将在未来工作中考虑上述局限性以优化 \tool{}，并且应在实际开发环境中使用该技术进行长期评估。未来，我们将开展用户研究以提升 \tool{} 的可用性。
+\subsection{推广性}
+评估结果表明，\tool{} 能够有效解决 Ubuntu 系统与 Python 语言之间的 CC 问题。在我们的研究中，我们还发现在其他 Linux 发行版生态系统和其他动态编程语言生态系统（例如 CentOS、Ruby）中存在类似的 CC 问题，并且这些问题的根本原因是一致的。因此，我们的整体框架也适用于其他生态系统。然而，分析软件包兼容性的方法并不通用于不同语言的软件包。我们通过分析不兼容的 API 来确定兼容性，但由于不同语言中 API 的实现方式各不相同，难以创建一个通用的方法来分析所有语言的第三方软件包兼容性。未来，我们将探索更通用的兼容性分析方法，以解决更多生态系统中的 CC 问题。
+
+\section{本章小结}

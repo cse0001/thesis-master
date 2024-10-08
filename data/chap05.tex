@@ -7,7 +7,7 @@
 本文在评估部分研究了以下三个研究问题：
 \begin{itemize}
 	\item \textbf{RQ4（检测 CC 问题）：\tool{}在检测 CC 问题方面的效果如何？}为了回答 RQ4，我们利用小节\ref{3.4} 构建的CC 问题数据集，以评估\tool{} 检测CC问题的有效性，并通过基于抽样的人工验证过程确认其可靠性。
-	\item \textbf{RQ5（分析不兼容改变）：\tool{} 在分析不兼容改变方面的效果如何？}为了回答 RQ5，我们从数据集中每个 CC 问题的错误信息中提取了破坏性API，从而评估分析不兼容改变的召回率，并通过样本验证进一步评估其精确率。
+	\item \textbf{RQ5（分析不兼容更改）：\tool{} 在分析不兼容更改方面的效果如何？}为了回答 RQ5，我们从数据集中每个 CC 问题的错误信息中提取了破坏性API，从而评估分析不兼容更改的召回率，并通过样本验证进一步评估其精确率。
 	\item \textbf{RQ6（解决实际问题）：\tool{} 能否检测到真实场景中的 CC 问题并提供有效的修复建议？}为了回答 RQ6，我们从 Stack Overflow 和 GitHub 收集了 27 个实际场景中的 CC 问题，以评估 \tool{} 是否能够检测并修复这些真实的 CC 问题。
 \end{itemize}
 
@@ -38,11 +38,11 @@
 \textbf{误报分析。}我们总结了导致误报的三大主要原因：
 \begin{itemize}
 	\item \textbf{(a) 未使用可选参数或额外参数列表（17/33）：}在第三方软件包的演进过程中，移除函数中的可选参数或额外参数列表通常被视为一种后向不兼容更改。然而，当函数调用仅使用必选参数时，这种不兼容更改不会对其产生影响。在检测 CC 问题时，\tool{}查询依赖表时仅检查破坏性 API 的使用情况，而未考虑参数的使用情况，导致了误报的产生。
-	\item \textbf{ (b) 用于赋值的破坏性函数 API（10/33）：}当破坏性函数 API 用于赋值而未被调用时，不会触发 CC 问题。目前，依赖表仅存储 API 使用情况，而未考虑使用类型，这导致了误报的产生。例如，在应用软件包 “partd 1.11.1” [14] 中，代码 \textit{decompress\_bytes = blosc.decompress} 将破坏性 API \textit{blosc.decompress} 赋值给 \textit{decompress\_bytes}，而未调用它，因此不会引发 CC 问题。
-	\item \textbf{ (c) 错误的破坏性 API（6/33）：}在某些库软件包的某些版本中，API 提取未能捕获所有提供的 API 或提取的 API 名称与实际 API 调用名称不匹配。这导致兼容性表中存储了错误的破坏性 API，从而引发了这些误报。例如，在库软件包 “humanfriendly 10.0” [7] 中，API 提取时将 API 名称识别为 \textit{humanfriendly.model.coerce\_boolean}，而实际的 API 调用名称是 \textit{humanfriendly.coerce\_boolean}。
+	\item \textbf{ (b) 用于赋值的破坏性函数 API（10/33）：}当破坏性函数 API 用于赋值而未被调用时，不会触发 CC 问题。目前，依赖表仅存储 API 使用情况，而未考虑使用类型，这导致了误报的产生。例如，在应用软件包 “partd 1.11.1” \upcite{partd} 中，代码 \textit{decompress\_bytes = blosc.decompress} 将破坏性 API \textit{blosc.decompress} 赋值给 \textit{decompress\_bytes}，而未调用它，因此不会引发 CC 问题。
+	\item \textbf{ (c) 错误的破坏性 API（6/33）：}在某些库软件包的某些版本中，API 提取未能捕获所有提供的 API 或提取的 API 名称与实际 API 调用名称不匹配。这导致兼容性表中存储了错误的破坏性 API，从而引发了这些误报。例如，在库软件包 “humanfriendly 10.0” \upcite{humanfriendly} 中，API 提取时将 API 名称识别为 \textit{humanfriendly.model.coerce\_boolean}，而实际的 API 调用名称是 \textit{humanfriendly.coerce\_boolean}。
 \end{itemize}
 
-\textbf{漏报分析。}\tool{} 共产生了 107 个漏报，其中 59 个是由于依赖表未存储相应破坏性 API 的使用情况。在提取 API 使用情况时，\tool{} 主要检测了具有频繁 API 调用的 AST 节点，如 \textit{atom\_expr} 节点和 \textit{argument} 节点。其他节点中破坏性 API 的使用情况导致了这些漏报的产生。此外，一些破坏性 API 的使用情况并未出现在 *.py 文件中，例如，“pipdeptree 0.13.2-1build1” [17] 和 “pip 23.1.2” [15] 之间的破坏性 API 使用发生在 \textit{*.pyx} 文件中，而 \tool{} 无法分析 \textit{*.pyx} 或 \textit{*.pyc} 文件。其余 48 个漏报是由于兼容性表未存储这些案例中对应的破坏性 API。这主要是由于 API 提取失败或在分析不兼容更改时判定规则未涵盖所有不兼容更改场景。
+\textbf{漏报分析。}\tool{} 共产生了 107 个漏报，其中 59 个是由于依赖表未存储相应破坏性 API 的使用情况。在提取 API 使用情况时，\tool{} 主要检测了具有频繁 API 调用的 AST 节点，如 \textit{atom\_expr} 节点和 \textit{argument} 节点。其他节点中破坏性 API 的使用情况导致了这些漏报的产生。此外，一些破坏性 API 的使用情况并未出现在 *.py 文件中，例如，“pipdeptree 0.13.2-1build1” \upcite{pipdeptree} 和 “pip 23.1.2” \upcite{pip} 之间的破坏性 API 使用发生在 \textit{*.pyx} 文件中，而 \tool{} 无法分析 \textit{*.pyx} 或 \textit{*.pyc} 文件。其余 48 个漏报是由于兼容性表未存储这些案例中对应的破坏性 API。这主要是由于 API 提取失败或在分析不兼容更改时判定规则未涵盖所有不兼容更改场景。
 
 \begin{tcolorbox}[boxrule=1pt,boxsep=1pt,left=2pt,right=2pt,top=2pt,bottom=2pt]
 	\small
@@ -50,7 +50,7 @@
 	\tool{} 能够有效检测 CC 问题，精确率达到 90.5\%，召回率达到 93.7\%。
 \end{tcolorbox} 
 
-\section{RQ5:分析不兼容改变}
+\section{RQ5:分析不兼容更改}
 \subsection{实验设置}
 \textbf{研究方法。}RQ5 旨在评估 \tool{} 的核心组件——兼容性表，重点关注分析不兼容更改的有效性。为了评估精确率，我们根据兼容性表中每种不兼容更改模式的比例，对破坏性 API 进行分层随机抽样，并使用与 RQ4 相同的样本量计算方法。对于每个抽样的破坏性 API，我们安装了库软件包的相应 apt 版本和 pip 版本，并手动验证调用该破坏性 API 是否会导致兼容性问题。为了评估召回率，我们验证了 CC 问题数据集中的破坏性 API 是否存在于兼容性表中。
 
@@ -76,8 +76,8 @@
 \textbf{误报分析。}我们根据不兼容更改模式分别分析了误报：
 \begin{itemize}
 	\item \textbf{(a) API 添加和移删除（30/34）：}这两类中的误报主要是由于 API 提取过程未能提取所有 API。\tool{} 采用动态反射来提取 API，但当 Python 解释器由于缺少依赖项而无法导入模块时，这种方法会失效。某些版本的库软件包未声明其所有依赖项，导致无法自动安装必要的依赖项。因此，依赖这些未安装依赖项的模块无法被导入，导致 API 丢失。
-	\item \textbf{ (b) 参数添加（3/34）：}该类别中的 3 个误报是由于添加的参数属于额外参数列表的一部分（例如，“xarray 0.15.0” 和 “xarray 2022.10.0” [23] 中的 \textit{xarray.open\_rasterio}）。在我们的规则中，我们认为参数添加会导致前向不兼容更改和后向不兼容更改，但当参数被添加到参数列表时，它仅会导致后向不兼容更改。我们将这种对不兼容更改类型的误判视为误报。
-	\item \textbf{ (c) 可选参数添加（1/34）：}可选参数添加类别中的 1 个误报也是由于不兼容更改类型的误判导致的。这一问题出现在库软件包 “marshmallow” [9] 中\textit{ marshmallow.fields.Field} 类的构造函数中。新版本修改了该类，使其要求使用关键字参数，并将可选参数添加到了参数列表中。\tool{}将其报告为可选参数添加和后向不兼容更改。然而，这种更改应被视为 后向不兼容更改 和 前向不兼容更改，这导致了漏报。
+	\item \textbf{ (b) 参数添加（3/34）：}该类别中的 3 个误报是由于添加的参数属于额外参数列表的一部分（例如，“xarray 0.15.0” 和 “xarray 2022.10.0” \upcite{xarray} 中的 \textit{xarray.open\_rasterio}）。在我们的规则中，我们认为参数添加会导致前向不兼容更改和后向不兼容更改，但当参数被添加到参数列表时，它仅会导致后向不兼容更改。我们将这种对不兼容更改类型的误判视为误报。
+	\item \textbf{ (c) 可选参数添加（1/34）：}可选参数添加类别中的 1 个误报也是由于不兼容更改类型的误判导致的。这一问题出现在库软件包 “marshmallow” \upcite{marshmallow} 中\textit{ marshmallow.fields.Field} 类的构造函数中。新版本修改了该类，使其要求使用关键字参数，并将可选参数添加到了参数列表中。\tool{}将其报告为可选参数添加和后向不兼容更改。然而，这种更改应被视为 后向不兼容更改 和 前向不兼容更改，这导致了漏报。
 \end{itemize}
 
 \textbf{漏报分析。}所有漏报均是由于在构建兼容性表时的 API 提取步骤中遗漏了一些 API 引起的。这些遗漏主要与缺少必要的依赖项有关，导致无法导入相关模块，从而无法动态提取 API。此外，由于某些库软件包设计的复杂性和工具设计的局限性，Hera 无法提取相关的 API。
@@ -90,7 +90,7 @@
 
 \section{RQ6:解决实际问题}
 \subsection{实验设置}
-\textbf{研究方法。}RQ6 通过从知名问答网站或开源平台（如 StackOverflow [21] 和 GitHub [6]）收集并复现真实场景中的 CC 问题来评估 \tool{} 的实用性。收集过程分为两个步骤：
+\textbf{研究方法。}RQ6 通过从知名问答网站或开源平台（如 StackOverflow \upcite{StackOverflow} 和 GitHub \upcite{GitHub}）收集并复现真实场景中的 CC 问题来评估 \tool{} 的实用性。收集过程分为两个步骤：
 \begin{itemize}
 	\item \textbf{步骤 1：搜索关键词。}我们首先使用了“Ubuntu”、“ImportError”和“dist-packages”等关键词，初步筛选出与 Ubuntu 系统中第三方软件包相关的兼容性问题。
 	\item \textbf{步骤 2：验证错误信息。}CC 问题与传统不兼容性问题最直接的区别在于，CC 问题发生在 apt 和 pip 目录之间。因此，我们聘请了一位拥有五年以上 Python 编程经验的工程师手动审查每个问题的错误信息，以确定其是否为 CC 问题。
@@ -100,9 +100,9 @@
 基于上述方法，我们成功复现了 26 个 CC 问题，并且 \tool{} 能够检测到所有这些问题。所有问题均列于表\ref{tab:issues} 中。
 \input{table/issues}
 此外，我们遵循\tool{} 的建议，在导入应用软件包之前先从 apt 目录中导入库软件包，并成功修复了所有 CC 问题。
-无法复现的问题是问题\#61237965[20]，原因是开发者提供的环境信息不足。
+无法复现的问题是问题\#6123796520\upcite{questions61237965}，原因是开发者提供的环境信息不足。
 
-\textbf{案例分析。}许多 CC 问题困扰着社区内的开发者，其中 gradio 的 Issue \#5154 [29] 就是一个例子。该开发者在运行 gradio 程序时遇到了应用软件包 “jinja2” 与库软件包 “markupsafe” 之间的兼容性问题。
+\textbf{案例分析。}许多 CC 问题困扰着社区内的开发者，其中 gradio 的 Issue \#5154 \upcite{gradio_issue_5154} 就是一个例子。该开发者在运行 gradio 程序时遇到了应用软件包 “jinja2” 与库软件包 “markupsafe” 之间的兼容性问题。
 \begin{figure}[htbp]
 	\centering
 	\subfloat[gradio 的 Issue \#5154的错误信息]{

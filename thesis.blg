@@ -5,57 +5,202 @@ The style file: bstutf8.bst
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Database file #1: ref/refs.bib
+Repeated entry---line 1633 of file ref/refs.bib
+ : @inproceedings{brito2018apidiff
+ :                                ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 1685 of file ref/refs.bib
+ : @inproceedings{mezzetti2018type
+ :                                ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 1701 of file ref/refs.bib
+ : @article{ponomarenko2012backward
+ :                                 ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 1789 of file ref/refs.bib
+ : @inproceedings{wang2019could
+ :                             ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 1903 of file ref/refs.bib
+ : @article{wang2021will
+ :                      ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 1957 of file ref/refs.bib
+ : @inproceedings{foo2018efficient
+ :                                ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 1973 of file ref/refs.bib
+ : @inproceedings{artho2012software
+ :                                 ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 2075 of file ref/refs.bib
+ : @article{javan2023dependency
+ :                             ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 2097 of file ref/refs.bib
+ : @inproceedings{zerouali2018empirical
+ :                                     ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 2115 of file ref/refs.bib
+ : @inproceedings{claes2015historical
+ :                                   ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 2133 of file ref/refs.bib
+ : @inproceedings{trezentos2010apt
+ :                                ,
+I'm skipping whatever remains of this entry
+Warning--I didn't find a database entry for "bommarito2019empirical，wang2022smartpip，wang2020watchman，lieasypip"
 -- BUPTThesis.bst version 1.0 Beta 1 (2009/05/31) by Yu Zhang.
 -- http://code.google.com/p/buptthesis/
 -- See the "userguide.pdf" manual for usage information.
-Warning--empty editor in clzs
-Warning--empty booktitle in clzs
-Warning--there's a publisher but no address in clzs
-Warning--The editor in DPMG is missing.
-Warning--empty editor in DPMG
-Warning--empty pages in DPMG
-Warning--there's neither address nor publisher in NPB2
+Warning--The editor in artho2012software is missing.
+Warning--empty editor in artho2012software
+Warning--The editor in wang2018dependency is missing.
+Warning--empty editor in wang2018dependency
+Warning--The editor in vasilakis2018breakapp is missing.
+Warning--empty editor in vasilakis2018breakapp
+Warning--empty pages in vasilakis2018breakapp
+Warning--empty pages in kula2017impact
+Warning--The editor in zerouali2018empirical is missing.
+Warning--empty editor in zerouali2018empirical
+Warning--The editor in patra2018conflictjs is missing.
+Warning--empty editor in patra2018conflictjs
+Warning--The editor in abate2020dependency is missing.
+Warning--empty editor in abate2020dependency
+Warning--The editor in claes2015historical is missing.
+Warning--empty editor in claes2015historical
+Warning--The editor in trezentos2010apt is missing.
+Warning--empty editor in trezentos2010apt
+Warning--The editor in wang2022smartpip is missing.
+Warning--empty editor in wang2022smartpip
+Warning--empty journal in lieasypip
+Warning--empty pages in lieasypip
+Warning--The editor in wang2020watchman is missing.
+Warning--empty editor in wang2020watchman
+Warning--The editor in mukherjee2021PyDfix is missing.
+Warning--empty editor in mukherjee2021PyDfix
+Warning--The editor in wang2021SnifferDog is missing.
+Warning--empty editor in wang2021SnifferDog
+Warning--The editor in li2022nufix is missing.
+Warning--empty editor in li2022nufix
+Warning--The editor in wang2019could is missing.
+Warning--empty editor in wang2019could
+Warning--The editor in huang2020interactive is missing.
+Warning--empty editor in huang2020interactive
+Warning--empty author and organization in Maven
+Warning--The refdate in Maven is missing.
+Warning--The author in NuGet is missing.
+Warning--The editor in falleri2014fine is missing.
+Warning--empty editor in falleri2014fine
+Warning--The editor in fraser2011evosuite is missing.
+Warning--empty editor in fraser2011evosuite
+Warning--The editor in zhang2020python is missing.
+Warning--empty editor in zhang2020python
+Warning--The editor in foo2018efficient is missing.
+Warning--empty editor in foo2018efficient
+Warning--The editor in mezzetti2018type is missing.
+Warning--empty editor in mezzetti2018type
+Warning--empty pages in mezzetti2018type
+Warning--The editor in moller2019model is missing.
+Warning--empty editor in moller2019model
+Warning--The editor in chen2020taming is missing.
+Warning--empty editor in chen2020taming
+Warning--The editor in horton2019v2 is missing.
+Warning--empty editor in horton2019v2
+Warning--The editor in ponomarenko2012backward is missing.
+Warning--empty editor in ponomarenko2012backward
+Warning--The editor in jia2021depowl is missing.
+Warning--empty editor in jia2021depowl
+Warning--The editor in brito2018apidiff is missing.
+Warning--empty editor in brito2018apidiff
+Warning--The editor in silva2017refdiff is missing.
+Warning--empty editor in silva2017refdiff
+Warning--The editor in du2022aexpy is missing.
+Warning--empty editor in du2022aexpy
+Warning--The author in Poetry is missing.
+Warning--The author in Conda is missing.
+Warning--The author in Issue7239 is missing.
+Warning--The author in Issue8197 is missing.
+Warning--The author in Issue8810 is missing.
+Warning--The author in Issue9983 is missing.
+Warning--The author in Issue11414 is missing.
+Warning--The editor in meng2012history is missing.
+Warning--empty editor in meng2012history
+Warning--The editor in wu2010aura is missing.
+Warning--empty editor in wu2010aura
+Warning--The editor in he2018understanding is missing.
+Warning--empty editor in he2018understanding
+Warning--The editor in jezek2013software is missing.
+Warning--empty editor in jezek2013software
+Warning--The editor in li2018cid is missing.
+Warning--empty editor in li2018cid
+Warning--The editor in henkel2005catchup is missing.
+Warning--empty editor in henkel2005catchup
+Warning--The editor in perkins2005automatically is missing.
+Warning--empty editor in perkins2005automatically
+Warning--The author in pip is missing.
+Warning--The author in npm is missing.
+Warning--The author in apt is missing.
+Warning--The author in Fedora is missing.
+Warning--The editor in wang2023automatically is missing.
+Warning--empty editor in wang2023automatically
+Warning--empty author and organization in pip_doc
+Warning--The refdate in pip_doc is missing.
+Warning--The author in docker is missing.
+Warning--empty author and organization in pypi
+Warning--The refdate in pypi is missing.
+Warning--The author in libraries.io is missing.
+Warning--The author in parso is missing.
+Warning--The author in dpkg is missing.
+Warning--The author in pipdeptree is missing.
+Warning--The author in partd is missing.
+Warning--The author in humanfriendly is missing.
+Warning--The author in xarray is missing.
+Warning--The author in marshmallow is missing.
+Warning--The author in StackOverflow is missing.
+Warning--The author in GitHub is missing.
+Warning--The author in questions61237965 is missing.
 
 Done.
-You've used 17 entries,
+You've used 79 entries,
             4554 wiz_defined-function locations,
-            1123 strings with 10015 characters,
-and the built_in function-call counts, 9184 in all, are:
-= -- 1004
-> -- 147
-< -- 12
-+ -- 81
-- -- 59
-* -- 753
-:= -- 1027
-add.period$ -- 61
-call.type$ -- 17
-change.case$ -- 1
-chr.to.int$ -- 12
-cite$ -- 24
-duplicate$ -- 636
-empty$ -- 999
-format.name$ -- 42
-if$ -- 2222
+            1355 strings with 20233 characters,
+and the built_in function-call counts, 36821 in all, are:
+= -- 4068
+> -- 565
+< -- 43
++ -- 351
+- -- 162
+* -- 2917
+:= -- 3958
+add.period$ -- 316
+call.type$ -- 79
+change.case$ -- 0
+chr.to.int$ -- 0
+cite$ -- 186
+duplicate$ -- 2323
+empty$ -- 4146
+format.name$ -- 162
+if$ -- 9047
 int.to.chr$ -- 0
-int.to.str$ -- 17
-missing$ -- 2
-newline$ -- 99
-num.names$ -- 20
-pop$ -- 64
+int.to.str$ -- 79
+missing$ -- 0
+newline$ -- 478
+num.names$ -- 52
+pop$ -- 502
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 219
+skip$ -- 1018
 stack$ -- 0
-substring$ -- 1054
-swap$ -- 181
-text.length$ -- 25
+substring$ -- 3841
+swap$ -- 824
+text.length$ -- 43
 text.prefix$ -- 0
 top$ -- 5
-type$ -- 149
-warning$ -- 7
-while$ -- 81
-width$ -- 19
-write$ -- 142
-(There were 7 warnings)
+type$ -- 443
+warning$ -- 107
+while$ -- 341
+width$ -- 81
+write$ -- 681
+(There were 11 error messages)

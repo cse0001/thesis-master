@@ -39,6 +39,31 @@ Acm sigplan notices.
 软件学报.
 2023, 35~(2):  629--674.
 
+\bibitem{bommarito2019empirical}
+Bommarito~E, Bommarito~M.
+An empirical analysis of the python package index (pypi)~[J].
+arXiv preprint arXiv:1907.11073.
+2019.
+
+\bibitem{wang2022smartpip}
+Wang~C, Wu~R, Song~H, et~al.
+smartPip: A Smart Approach to Resolving Python Dependency Conflict Issues~[C].
+Proceedings of the 37th IEEE/ACM International Conference on Automated Software
+  Engineering.
+2022:  1--12.
+
+\bibitem{wang2020watchman}
+Wang~Y, Wen~M, Liu~Y, et~al.
+Watchman: Monitoring dependency conflicts for python library ecosystem~[C].
+Proceedings of the ACM/IEEE 42nd International Conference on Software
+  Engineering.
+2020:  125--135.
+
+\bibitem{lieasypip}
+Li~S.
+EasyPip: Detect and Fix Dependency Problems in Python Dependency Declaration
+  Files~[J].
+
 \bibitem{javan2023dependency}
 Javan~Jafari~A, Costa~D~E, Shihab~E, et~al.
 Dependency update strategies and package characteristics~[J].
@@ -78,25 +103,6 @@ Apt-pbo: solving the software dependency problem using pseudo-boolean
 Proceedings of the 25th IEEE/ACM International Conference on Automated Software
   Engineering.
 2010:  427--436.
-
-\bibitem{wang2022smartpip}
-Wang~C, Wu~R, Song~H, et~al.
-smartPip: A Smart Approach to Resolving Python Dependency Conflict Issues~[C].
-Proceedings of the 37th IEEE/ACM International Conference on Automated Software
-  Engineering.
-2022:  1--12.
-
-\bibitem{lieasypip}
-Li~S.
-EasyPip: Detect and Fix Dependency Problems in Python Dependency Declaration
-  Files~[J].
-
-\bibitem{wang2020watchman}
-Wang~Y, Wen~M, Liu~Y, et~al.
-Watchman: Monitoring dependency conflicts for python library ecosystem~[C].
-Proceedings of the ACM/IEEE 42nd International Conference on Software
-  Engineering.
-2020:  125--135.
 
 \bibitem{mukherjee2021PyDfix}
 Mukherjee~S, Almanza~A, Rubio-Gonz{\'a}lez~C.

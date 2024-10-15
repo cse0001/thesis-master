@@ -2,17 +2,21 @@
 在现代软件开发中，使用第三方包成为了软件复用的重要手段。随着软件领域的不断演进，各类软件生态的通用做法是将越来越多的第三方包发布并维护在一个中央仓库中，以便开发者下载和安装。这种方式极大的提高了软件开发效率，但也给开发者维护第三方包兼容性带来了新的挑战。
 
 目前，随着编程语言的飞速发展，许多语言都建立了自己的软件生态，与此同时，操作系统作为基础软件的代表，也演化出了以各种linux发行版为代表的操作系统生态。
-两类生态都将可复用的软件代码打包并发布在公开的第三方包仓库中，并且它们一般都提供了服务于自身生态仓库的包管理工具，帮助用户管理第三方包并处理第三方包的依赖关系，
-这些工具通常都经过精心设计来处理仓库内部的第三方包依赖关系，但是不考虑仓库间的第三方包依赖关系。
-然而，由于用户往往需要使用来自不同仓库的软件包，可能会出现跨软件生态的兼容性问题（CC问题）。现有研究通常只关注单一软件仓库，无法检测CC问题。为了填补这一空白，本文以Python语言生态和Ubuntu系统生态为代表，将重点关注以下两个研究问题：（1）系统中为什么会发生CC问题？（2）如何预测、检测和修复CC问题？
+两类生态都将可复用的软件代码打包并发布在公开的第三方包仓库中，并且它们一般都提供了服务于自身生态仓库的包管理工具，帮助用户管理第三方包并处理包之间的依赖关系，
+这些工具通常都经过精心设计来处理仓库内部的包依赖关系，但是不考虑仓库间的包依赖关系。
+然而，由于用户往往需要使用来自不同软件生态仓库的软件包，这些不同仓库的包可能会发生兼容性问题，本文将其称为跨软件生态的兼容性问题（CC问题）。现有研究通常只关注单一软件仓库，无法检测CC问题。为了填补这一空白，本文以Python语言生态和Ubuntu系统生态为代表，将重点关注以下两个研究问题：（1）CC问题是如何发生的以及发生时的特征是什么？（2）如何预测、检测和修复CC问题？
 
 基于以上问题和总结，本文深入分析CC问题，并进行了如下探索性工作：
-\begin{itemize}
-	\item 本文从Ubuntu系统和Python语言出发，研究系统内不同软件仓库间Python软件包的兼容性问题。首先，本文系统性的探讨了Ubuntu包管理工具apt和Python包管理工具pip的包安装策略，然后深入分析了系统级Python解释器的包调用策略。基于上述分析，本研究分析了CC问题的根本原因并总结了问题特征，包括三种触发模式和和四种故障表现，并在Ubuntu20.04上研究了CC问题对于系统的影响，建立了一个包含1692个CC问题的数据集。
-	\item 在上述分析的基础上，本研究设计了一款自动解决 CC 问题的工具\tool{}。\tool{}首先离线建立一个兼容性数据库、然后在线预测、检测和修复用户系统环境中的 CC 问题。实验结果显示，\tool{}在上述CC问题数据集上的检测准确率为 90.5\%，召回率为 93.7\%。我们还从GitHub和Stack Overflow收集并复现了26 个CC问题，Hera成功检测出了所有这些问题并提供了正确的修复建议。
-\end{itemize}
+\begin{compactitem}
+	\item 本文从Ubuntu系统和Python语言出发，研究系统内不同软件仓库间Python软件包的兼容性问题。首先，本文探讨了Ubuntu包管理工具apt和Python包管理工具pip的包安装策略，和系统级Python解释器的包调用策略，最终总结了CC问题的根本原因。然后，本文从GitHub和Stack Overflow收集并筛选处出27个真实世界CC问题，基于此总结了问题特征，包括三种触发模式和和四种故障表现。本文还研究了CC问题对于Ubuntu20.04系统的影响，共触发了1692个CC问题并构建了数据集。
+	\item 在上述分析的基础上，本研究设计了一款自动解决 CC 问题的工具\tool{}。\tool{}首先离线建立一个兼容性数据库、然后在线预测、检测和修复用户系统环境中的 CC 问题。评估实验结果显示，\tool{}在上述CC问题数据集上的检测准确率为 90.5\%，召回率为 93.7\%。本文还复现了26 个真实世界CC问题，Hera成功检测出了所有这些问题并提供了正确的修复建议。
+\end{compactitem}
 \end{cabstract}
 \ckeywords{Ubuntu生态; Python生态; 兼容性问题}
+
+\newpage
+\mbox{}
+\newpage
 
 \begin{eabstract}
 In modern software development, using third-party packages has become an important means of software reuse.
@@ -27,7 +31,7 @@ Existing research usually focuses on a single software repository and cannot det
 To fill this gap, this paper takes the Python language ecosystem and the Ubuntu system ecosystem as representatives and focuses on the following two research questions: (1) What are the root causes of compatibility issues between third-party packages in different software repositories? (2) How to predict, detect, and resolve CC issues?
 
 Based on the above questions and summary, this paper conducts an in-depth analysis of CC issues and undertakes the following exploratory work:
-\begin{itemize}
+\begin{compactitem}
 	\item This paper investigates compatibility issues between Python packages across different repositories, starting from the Ubuntu system software repository, Python software repository, and Python interpreter.
 	First, this paper systematically explores the dependency resolution rules of Ubuntu's package manager apt and Python's package manager pip, and then delves into the package invocation rules of the system-level Python interpreter.
 	Based on the above analysis, this study summarizes the triggering patterns and manifestations of CC issues and establishes a dataset containing 1,692 CC issues between the Ubuntu ecosystem software repository and the Python software repository.
@@ -35,7 +39,7 @@ Based on the above questions and summary, this paper conducts an in-depth analys
 	\tool{} first establishes an offline cross-ecosystem compatibility database, and then predicts, detects, and resolves CC issues in the user's system environment online.
 	Experimental results show that \tool{} achieves a detection accuracy of 90.5\% and a recall rate of 93.7\% on the aforementioned CC issue dataset.
 	We also collected and reproduced 26 CC issues from GitHub and Stack Overflow, and \tool{} successfully detected all these issues and provided correct repair suggestions.
-\end{itemize}
+\end{compactitem}
 
 
 \end{eabstract}

@@ -1,0 +1,26 @@
+\begin{algorithm}[htbp]
+	\caption{检测CC问题}
+	\label{alg:DetectCC}
+	\begin{algorithmic}[1]
+		\REQUIRE System-Level Package Dependency Graph (S-PDG), Compatibility Table, Dependency Table
+		\ENSURE List of detected CC issues
+		
+		\STATE Initialize an empty list of CC issues
+		\FOR{each covered edge $(A, B)$ in S-PDG}
+		\STATE $A_{version} \gets$ Version of package $A$ in apt
+		\STATE $B_{version} \gets$ Version of package $B$ in pip
+		\STATE Check the Compatibility Table for $A_{version}$ and $B_{version}$
+		\IF{incompatibilities exist}
+		\STATE Query the Compatibility Table for APIs incompatible between $A_{version}$ and $B_{version}$
+		\STATE $incompatibleAPIs \gets$ List of incompatible APIs
+		\FOR{each $api$ in $incompatibleAPIs$}
+		\STATE Check the Dependency Table to see if $api$ is used by $package$ $A$
+		\IF{$api$ is used by $package$ $A$}
+		\STATE Add "CC issue detected with $api$ in package $A$" to list of CC issues
+		\ENDIF
+		\ENDFOR
+		\ENDIF
+		\ENDFOR
+		\RETURN List of CC issues
+	\end{algorithmic}
+\end{algorithm}

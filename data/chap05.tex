@@ -47,7 +47,7 @@
 \begin{tcolorbox}[boxrule=1pt,boxsep=1pt,left=2pt,right=2pt,top=2pt,bottom=2pt]
 	\small
 	\textcolor{red}{\faIcon{user-edit}} \noindent\textbf{RQ4结论:} 
-	\tool{} 能够有效检测 CC 问题，精确率达到 90.5\%，召回率达到 93.7\%。
+	在本实验中，使用\tool{}对数据集中的23,866个软件包组合进行了CC问题检测。实验结果显示，\tool{}的精确率为90.5\%，召回率为93.7\%，F1分数为92.1\%，表明其有效性。尽管表现良好，\tool{}还存在误报和漏报，主要由于未充分分析参数依赖和API调用。误报常因API使用情况的错误判定而发生，漏报则由于关键API信息缺失或文件类型支持不足导致。未来通过改进API分析和扩展文件类型支持可以进一步提高\tool{}的检测精度和实用性。
 \end{tcolorbox} 
 
 \section{RQ5:分析不兼容更改}
@@ -56,8 +56,17 @@
 
 \textbf{评估指标。}我们采用了六个评估指标：(1) 已验证的真实正例 (VTP)：从兼容性表中抽样并通过人工验证的破坏性 API；(2) 直接真实正例 (DTP)：在 CC 问题数据集中且存在于兼容性表中的破坏性 API；(3) 误报 (FP)：从兼容性表中抽样但未通过人工验证的破坏性 API；(4) 漏报 (FN)：存在于 CC 问题数据集中但不在兼容性表中的破坏性 API。基于这些指标，我们使用与 RQ4 相同的方法计算精确率和召回率。精确率评估 \tool{} 是否能够准确分析不兼容更改，而召回率评估 \tool{} 是否能够分析所有不兼容更改。
 \subsection{结果分析}
+\ignore{
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=\textwidth]{RQ2-1}
+	\label{fig:RQ5-1}
+	\caption{RQ5分析不兼容更改的精确率}
+\end{figure}
+}
 图\ref{fig:RQ5}展示了 RQ5 的实验结果。
-\begin{figure}[htbp]
+
+\begin{figure}[t]
 	\centering
 	\subfloat[分析不兼容更改的精确率]{
 		\includegraphics[width=\textwidth]{RQ2-1}
@@ -71,12 +80,21 @@
 	\label{fig:RQ5}
 	% \vspace{-2mm}
 \end{figure}
-在抽样的 384 个破坏性 API 中，350 个通过了人工验证，34 个未通过，精准率为 91.1\%。漏报来自四类更改，包括 API 添加、API 删除、参数添加和可选参数添加。在 CC 问题数据集中共计 1,674 个破坏性 API，其中 1,644 个存在于兼容性表中，召回率为 98.2\%。根据实验结果，我们可以得出结论：\tool{} 能够有效地分析不兼容更改。
 
+在抽样的 384 个破坏性 API 中，350 个通过了人工验证，34 个未通过，精准率为 91.1\%。漏报来自四类更改，包括 API 添加、API 删除、参数添加和可选参数添加。在 CC 问题数据集中共计 1,674 个破坏性 API，其中 1,644 个存在于兼容性表中，召回率为 98.2\%。根据实验结果，我们可以得出结论：\tool{} 能够有效地分析不兼容更改。\tool{}也存在一定程度的误报和漏报，接下来本节进行了详细的误报和漏报分析，以识别不兼容更改分析中的主要问题。
+
+\ignore{
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=.85\textwidth]{RQ2-2}
+	\label{fig:RQ5-2}
+	\caption{RQ5分析不兼容更改的召回率}
+\end{figure}
+}
 \textbf{误报分析。}我们根据不兼容更改模式分别分析了误报：
 \begin{itemize}
-	\item \textbf{(a) API 添加和移删除（30/34）：}这两类中的误报主要是由于 API 提取过程未能提取所有 API。\tool{} 采用动态反射来提取 API，但当 Python 解释器由于缺少依赖项而无法导入模块时，这种方法会失效。某些版本的库软件包未声明其所有依赖项，导致无法自动安装必要的依赖项。因此，依赖这些未安装依赖项的模块无法被导入，导致 API 丢失。
-	\item \textbf{ (b) 参数添加（3/34）：}该类别中的 3 个误报是由于添加的参数属于额外参数列表的一部分（例如，“xarray 0.15.0” 和 “xarray 2022.10.0” \upcite{xarray} 中的 \textit{xarray.open\_rasterio}）。在我们的规则中，我们认为参数添加会导致前向不兼容更改和后向不兼容更改，但当参数被添加到参数列表时，它仅会导致后向不兼容更改。我们将这种对不兼容更改类型的误判视为误报。
+	\item \textbf{(a) API 添加和移删除（30/34）：}这是最常见的误报类型，这两类中的误报主要是由于 API 提取过程未能提取所有 API。\tool{} 采用动态反射来提取 API，动态反射方法依赖于模块的完全加载但当 Python 解释器由于缺少必要的依赖项而加载特定模块时，\tool{}无法通过反射来获取这些模块的API。某些版本的库软件包未声明其所有依赖项，导致无法自动安装必要的依赖项。因此，依赖这些未安装依赖项的模块无法被导入，导致 API 丢失。
+	\item \textbf{ (b) 参数添加（3/34）：}该类别中的 3 个误报是由于添加的参数属于额外参数列表的一部分（例如，“xarray 0.15.0” 和 “xarray 2022.10.0” \upcite{xarray} 中的 \textit{xarray.open\_rasterio}）。在我们的规则中，我们认为参数添加会导致前向不兼容更改和后向不兼容更改，因此\tool{}将其误判为同时影响前向和后向兼容性。但当参数被添加到参数列表时，它仅会导致后向不兼容更改。我们将这种对不兼容更改类型的误判视为误报。
 	\item \textbf{ (c) 可选参数添加（1/34）：}可选参数添加类别中的 1 个误报也是由于不兼容更改类型的误判导致的。这一问题出现在库软件包 “marshmallow” \upcite{marshmallow} 中\textit{ marshmallow.fields.Field} 类的构造函数中。新版本修改了该类，使其要求使用关键字参数，并将可选参数添加到了参数列表中。\tool{}将其报告为可选参数添加和后向不兼容更改。然而，这种更改应被视为 后向不兼容更改 和 前向不兼容更改，这导致了漏报。
 \end{itemize}
 
@@ -85,25 +103,21 @@
 \begin{tcolorbox}[boxrule=1pt,boxsep=1pt,left=2pt,right=2pt,top=2pt,bottom=2pt]
 	\small
 	\textcolor{red}{\faIcon{user-edit}} \noindent\textbf{RQ5结论:} 
-	在 95\% 的置信水平和 5\% 的误差范围下，\tool{} 在分析不兼容更改方面表现出较高的有效性，精准率达 91.1\%，召回率达 98.2\%。
+	RQ5评估了\tool{}在分析不兼容更改方面的有效性，在 95\% 的置信水平和 5\% 的误差范围下，结果显示其精确率为91.1\%，召回率达到了98.2\%。这表明\tool{}能够有效识别和分析不兼容更改，尽管存在一定比例的误报和漏报。误报主要是由于动态反射API提取失败，特别是当Python解释器因缺少依赖而无法加载模块时，以及对不兼容更改类型的误判。漏报主要因API提取过程中未能捕捉到所有API，通常与缺少的依赖项和模块导入失败相关。这些结果表明\tool{}目前在处理依赖复杂和动态环境时有一定局限性，未来可以通过改善API提取准确性和完善不兼容更改的分类方法进一步提高\tool{}的实用性和可靠性。
 \end{tcolorbox} 
 
+\input{table/issues}
 \section{RQ6:解决实际问题}
 \subsection{实验设置}
-\textbf{研究方法。}RQ6 通过从知名问答网站或开源平台（如 StackOverflow \upcite{StackOverflow} 和 GitHub \upcite{GitHub}）收集并复现真实场景中的 CC 问题来评估 \tool{} 的实用性。收集过程分为两个步骤：
-\begin{itemize}
-	\item \textbf{步骤 1：搜索关键词。}我们首先使用了“Ubuntu”、“ImportError”和“dist-packages”等关键词，初步筛选出与 Ubuntu 系统中第三方软件包相关的兼容性问题。
-	\item \textbf{步骤 2：验证错误信息。}CC 问题与传统不兼容性问题最直接的区别在于，CC 问题发生在 apt 和 pip 目录之间。因此，我们聘请了一位拥有五年以上 Python 编程经验的工程师手动审查每个问题的错误信息，以确定其是否为 CC 问题。
-\end{itemize}
-基于上述两个步骤，我们识别出了 27 个实际场景中的 CC 问题，并尝试在系统中复现它们。对于成功复现的问题，我们使用 \tool{} 检测 CC 问题，并根据 \tool{} 提供的建议修复这些 CC 问题。
+\textbf{研究方法。}RQ6 利用\ref{3.3.1}中收集的真实世界CC问题来评估\tool{}在解决实际问题上的有效性。具体而言，本节首先深入分析每个问题的问题描述和错误信息，从中获取发生CC问题时相关的包和系统环境，然后，本节利用docker构建相互独立的环境尝试复现CC问题，当复现得到的错误信息和收集的错误信息一致时，认为该CC问题复现成功。对于每一个复现成功的CC问题，本节使用\tool{}进行检测，如果\tool{}报告了正确的CC问题，我们将根据工具给出的修复建议进行修复，并验证是否修复成功。
+
 \subsection{结果分析}
-基于上述方法，我们成功复现了 26 个 CC 问题，并且 \tool{} 能够检测到所有这些问题。所有问题均列于表\ref{tab:issues} 中。
-\input{table/issues}
+基于上述方法，我们成功复现了 26 个 CC 问题，并且 \tool{} 能够检测到所有这些问题。所有问题均列于表\ref{tab:issues} 中
 此外，我们遵循\tool{} 的建议，在导入应用软件包之前先从 apt 目录中导入库软件包，并成功修复了所有 CC 问题。
 无法复现的问题是问题\#6123796520\upcite{questions61237965}，原因是开发者提供的环境信息不足。
 
 \textbf{案例分析。}许多 CC 问题困扰着社区内的开发者，其中 gradio 的 Issue \#5154 \upcite{gradio_issue_5154} 就是一个例子。该开发者在运行 gradio 程序时遇到了应用软件包 “jinja2” 与库软件包 “markupsafe” 之间的兼容性问题。
-\begin{figure}[htbp]
+\begin{figure}[t]
 	\centering
 	\subfloat[gradio 的 Issue \#5154的错误信息]{
 		\includegraphics[width=\textwidth]{RQ3}
@@ -122,7 +136,7 @@
 \begin{tcolorbox}[boxrule=1pt,boxsep=1pt,left=2pt,right=2pt,top=2pt,bottom=2pt]
 	\small
 	\textcolor{red}{\faIcon{user-edit}} \noindent\textbf{RQ6结论:} 
-	在成功复现的 26 个实际 CC 问题中，\tool{} 能够检测到所有 26 个案例，并提供准确的原因分析和有效的修复建议。
+	在RQ6中，本节评估了\tool{}在处理实际世界的CC问题中的有效性。针对26个复现的真实世界CC问题，\tool{}成功检测并修复了所有这些问题。这证明了\tool{}不仅能够准确识别和报告CC问题，还能提供有效的修复建议。特别是在处理像gradio Issue \#5154这样的复杂案例时，\tool{}展示了其能力，通过建议从apt目录导入库软件包“markupsafe”，帮助开发者避免不必要的降级操作。评估结果证明\tool{}在解决实际应用上的有效性和可用性，能够为开发者在遇到依赖冲突时提供直接和实用的解决方案。
 \end{tcolorbox} 
 
 \section{讨论}

@@ -1,0 +1,28 @@
+\begin{algorithm}[htbp]
+	\caption{构建系统级软件包依赖图 (S-PDG)}
+	\label{alg:BuildSPDG}
+	\begin{algorithmic}[1]
+		\REQUIRE apt directory, pip directory
+		\ENSURE System-level Package Dependency Graph (S-PDG)
+		
+		\STATE {\bfseries Step1: Collect packages from apt and pip directories:}
+		\STATE Use dpkg tool to collect all packages from the apt directory
+		\STATE Use \textit{pkg\_resources} module to collect all packages from the pip directory
+		
+		\STATE {\bfseries Step2: Build R-PDG:}
+		\STATE Construct apt R-PDG based on the collected apt packages and their dependencies
+		\STATE Use pipdeptree to analyze dependencies in the pip directory and construct pip R-PDG
+		
+		\STATE {\bfseries Step3: Merge R-PDGs to construct S-PDG:}
+		\FOR{each package A in apt R-PDG}
+		\IF{package A also exists in pip R-PDG}
+		\STATE Add a covered edge in S-PDG from A in apt R-PDG to A in pip R-PDG
+		\ELSE
+		\STATE Add A to S-PDG
+		\ENDIF
+		\ENDFOR
+		\FOR{each package P exclusively in pip R-PDG}
+		\STATE Add P to S-PDG
+		\ENDFOR
+	\end{algorithmic}
+\end{algorithm}

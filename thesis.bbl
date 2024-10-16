@@ -432,6 +432,18 @@ pip documentation~[EB/OL].
 2024.
 \url{https://pip.pypa.io/en/stable/cli/pip_install/}Accessed: 2024-6-6.
 
+\bibitem{StackOverflow}
+Stack Overflow.
+2024.
+\url{https://stackoverflow.com/}.
+Accessed: 2024-6-6.
+
+\bibitem{GitHub}
+GitHub.
+2024.
+\url{https://github.com/}.
+Accessed: 2024-6-6.
+
 \bibitem{docker}
 Docker.
 2024.
@@ -442,6 +454,12 @@ Accessed: 2024-6-6.
 PyPI~[EB/OL].
 2024.
 \url{https://pypi.org/}Accessed: 2024-6-6.
+
+\bibitem{pip-check}
+pip-check.
+2024.
+\url{https://pypi.org/project/pip-check/}.
+Accessed: 2024-6-6.
 
 \bibitem{libraries.io}
 Libraries.io.
@@ -489,18 +507,6 @@ Accessed: 2024-6-6.
 marshmallow.
 2024.
 \url{https://pypi.org/project/marshmallow/}.
-Accessed: 2024-6-6.
-
-\bibitem{StackOverflow}
-Stack Overflow.
-2024.
-\url{https://stackoverflow.com/}.
-Accessed: 2024-6-6.
-
-\bibitem{GitHub}
-GitHub.
-2024.
-\url{https://github.com/}.
 Accessed: 2024-6-6.
 
 \bibitem{questions61237965}

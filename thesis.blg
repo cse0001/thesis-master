@@ -150,9 +150,12 @@ Warning--The editor in wang2023automatically is missing.
 Warning--empty editor in wang2023automatically
 Warning--empty author and organization in pip_doc
 Warning--The refdate in pip_doc is missing.
+Warning--The author in StackOverflow is missing.
+Warning--The author in GitHub is missing.
 Warning--The author in docker is missing.
 Warning--empty author and organization in pypi
 Warning--The refdate in pypi is missing.
+Warning--The author in pip-check is missing.
 Warning--The author in libraries.io is missing.
 Warning--The author in parso is missing.
 Warning--The author in dpkg is missing.
@@ -161,50 +164,48 @@ Warning--The author in partd is missing.
 Warning--The author in humanfriendly is missing.
 Warning--The author in xarray is missing.
 Warning--The author in marshmallow is missing.
-Warning--The author in StackOverflow is missing.
-Warning--The author in GitHub is missing.
 Warning--The author in questions61237965 is missing.
 
 Done.
-You've used 80 entries,
+You've used 81 entries,
             4554 wiz_defined-function locations,
-            1358 strings with 20309 characters,
-and the built_in function-call counts, 37261 in all, are:
-= -- 4118
-> -- 572
+            1360 strings with 20353 characters,
+and the built_in function-call counts, 37410 in all, are:
+= -- 4131
+> -- 573
 < -- 43
-+ -- 355
++ -- 356
 - -- 164
-* -- 2952
-:= -- 4006
-add.period$ -- 320
-call.type$ -- 80
+* -- 2961
+:= -- 4016
+add.period$ -- 324
+call.type$ -- 81
 change.case$ -- 0
 chr.to.int$ -- 0
-cite$ -- 188
-duplicate$ -- 2354
-empty$ -- 4196
+cite$ -- 190
+duplicate$ -- 2361
+empty$ -- 4222
 format.name$ -- 164
-if$ -- 9152
+if$ -- 9192
 int.to.chr$ -- 0
-int.to.str$ -- 80
+int.to.str$ -- 81
 missing$ -- 0
-newline$ -- 484
+newline$ -- 490
 num.names$ -- 53
-pop$ -- 506
+pop$ -- 515
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 1030
+skip$ -- 1034
 stack$ -- 0
 substring$ -- 3885
-swap$ -- 829
+swap$ -- 834
 text.length$ -- 43
 text.prefix$ -- 0
 top$ -- 5
 type$ -- 456
-warning$ -- 108
+warning$ -- 109
 while$ -- 344
-width$ -- 82
-write$ -- 689
+width$ -- 83
+write$ -- 697
 (There were 12 error messages)

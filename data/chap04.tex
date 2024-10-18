@@ -1,10 +1,12 @@
 \chapter{跨软件生态的兼容性问题预测、检测和修复}
 在本节中，我们介绍了\tool{}，该自动化工具旨在检测和预测 CC 问题，并为用户提供修复建议。
-\tool{}的整体设计如图\ref{fig:overview}所示。
+
+\section{总体框架}
+\tool{}的总体框架如图\ref{fig:overview}所示。
 \begin{figure}[htbp] % use float package if you want it here
 	\centering
 	\includegraphics[width=5in]{overview2}
-	\caption{\tool{}的整体设计图}
+	\caption{\tool{}的总体框架图}
 	\label{fig:overview}
 \end{figure}
 \tool{}主要包括离线和在线两个阶段。离线阶段构建了一个跨仓库兼容性数据库，包括两个主要表格：依赖表和兼容性表（见第 \ref{4.1}节）。在线阶段构建了一个系统级软件包依赖图（S-PDG），用于检测和预测 CC 问题，并提供修复建议（见第 \ref{4.2} 节）。

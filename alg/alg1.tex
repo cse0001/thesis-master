@@ -6,23 +6,24 @@
 		\ENSURE System-level Package Dependency Graph (S-PDG)
 		
 		\STATE {\bfseries Step1: Collect packages from apt and pip directories:}
-		\STATE Use dpkg tool to collect all packages from the apt directory
-		\STATE Use \textit{pkg\_resources} module to collect all packages from the pip directory
+		\STATE $apt\_pkg$ = get\_packages\_from\_apt\_dir(apt directory)
+		\STATE $pip\_pkg$ = get\_packages\_from\_pip\_dir(pip directory)
 		
 		\STATE {\bfseries Step2: Build R-PDG:}
-		\STATE Construct apt R-PDG based on the collected apt packages and their dependencies
-		\STATE Use pipdeptree to analyze dependencies in the pip directory and construct pip R-PDG
+		\STATE $apt\_RPDG$ = construct\_RPDG($apt\_pkg$)
+		\STATE $pip\_RPDG$ = construct\_RPDG($pip\_pkg$)
 		
 		\STATE {\bfseries Step3: Merge R-PDGs to construct S-PDG:}
-		\FOR{each package A in apt R-PDG}
-		\IF{package A also exists in pip R-PDG}
-		\STATE Add a covered edge in S-PDG from A in apt R-PDG to A in pip R-PDG
+		\STATE Initialize $S\_PDG$ as empty graph
+		\FOR{each package $A$ in $apt\_RPDG$}
+		\IF{$A$ also exists in $pip\_RPDG$}
+		\STATE Add a covered edge in $S\_PDG$ from $A$ in $apt\_RPDG$ to $A$ in $pip\_RPDG$
 		\ELSE
-		\STATE Add A to S-PDG
+		\STATE Add $A$ to $S\_PDG$
 		\ENDIF
 		\ENDFOR
-		\FOR{each package P exclusively in pip R-PDG}
-		\STATE Add P to S-PDG
+		\FOR{each package $P$ exclusively in $pip\_RPDG$}
+		\STATE Add $P$ to $S\_PDG$
 		\ENDFOR
 	\end{algorithmic}
 \end{algorithm}

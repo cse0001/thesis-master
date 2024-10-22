@@ -142,6 +142,7 @@ Warning--The editor in henkel2005catchup is missing.
 Warning--empty editor in henkel2005catchup
 Warning--The editor in perkins2005automatically is missing.
 Warning--empty editor in perkins2005automatically
+Warning--there's a school but no address in 贾周阳2020
 Warning--The author in pip is missing.
 Warning--The author in npm is missing.
 Warning--The author in apt is missing.
@@ -167,45 +168,45 @@ Warning--The author in marshmallow is missing.
 Warning--The author in questions61237965 is missing.
 
 Done.
-You've used 81 entries,
+You've used 82 entries,
             4554 wiz_defined-function locations,
-            1360 strings with 20353 characters,
-and the built_in function-call counts, 37410 in all, are:
-= -- 4131
-> -- 573
+            1364 strings with 20459 characters,
+and the built_in function-call counts, 37660 in all, are:
+= -- 4160
+> -- 577
 < -- 43
-+ -- 356
-- -- 164
-* -- 2961
-:= -- 4016
-add.period$ -- 324
-call.type$ -- 81
++ -- 358
+- -- 165
+* -- 2984
+:= -- 4043
+add.period$ -- 327
+call.type$ -- 82
 change.case$ -- 0
 chr.to.int$ -- 0
-cite$ -- 190
-duplicate$ -- 2361
-empty$ -- 4222
-format.name$ -- 164
-if$ -- 9192
+cite$ -- 192
+duplicate$ -- 2375
+empty$ -- 4249
+format.name$ -- 165
+if$ -- 9251
 int.to.chr$ -- 0
-int.to.str$ -- 81
+int.to.str$ -- 82
 missing$ -- 0
-newline$ -- 490
-num.names$ -- 53
-pop$ -- 515
+newline$ -- 495
+num.names$ -- 54
+pop$ -- 516
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 1034
+skip$ -- 1040
 stack$ -- 0
-substring$ -- 3885
-swap$ -- 834
+substring$ -- 3903
+swap$ -- 838
 text.length$ -- 43
 text.prefix$ -- 0
 top$ -- 5
-type$ -- 456
-warning$ -- 109
-while$ -- 344
-width$ -- 83
-write$ -- 697
+type$ -- 466
+warning$ -- 110
+while$ -- 346
+width$ -- 84
+write$ -- 704
 (There were 12 error messages)

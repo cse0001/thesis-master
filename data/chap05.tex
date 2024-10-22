@@ -66,7 +66,7 @@
 图\ref{fig:RQ5-1}展示了\tool{}分析不兼容更改的精确率。整体来看，在抽样的 384 个破坏性 API 中，350 个通过了人工验证，34 个未通过，精确率为 91.1\%。漏报来自四类更改，包括 API 添加、API 删除、参数添加和可选参数添加。在 CC 问题数据集中共计 1,674 个破坏性 API，其中 1,644 个存在于兼容性表中，召回率为 98.2\%。根据实验结果，RQ2可以得出结论：\tool{} 能够有效地分析不兼容更改。\tool{}也存在一定程度的误报和漏报，接下来本节进行了详细的误报和漏报分析，以识别不兼容更改分析中的主要问题。
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=\textwidth]{RQ2-1}
+	\includegraphics[width=\textwidth]{RQ2}
 	\label{fig:RQ5-1}
 	\caption{\tool{}分析不兼容更改的精确率}
 \end{figure}
@@ -76,7 +76,7 @@
 	\centering
 	\subfloat[分析不兼容更改的精确率]{
 		\includegraphics[width=\textwidth]{RQ2-1}
-		\label{fig:RQ5-1}
+		\label{fig:RQ2}
 	}\hspace{4em}
 	\subfloat[分析不兼容更改的召回率]{
 		\includegraphics[width=.85\textwidth]{RQ2-2}
